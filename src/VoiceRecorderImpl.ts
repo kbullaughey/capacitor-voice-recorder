@@ -168,7 +168,11 @@ export class VoiceRecorderImpl {
         console.log('ondataavailable', event);
         return this.chunks.push(event.data);
       };
-      this.mediaRecorder.start(options?.chunkDurationMs ?? 1000);
+      if (options?.chunkDurationMs != null) {
+        this.mediaRecorder.start(options.chunkDurationMs);
+      } else {
+        this.mediaRecorder.start();
+      }
     });
     return successResponse();
   }
