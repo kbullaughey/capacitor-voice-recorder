@@ -169,6 +169,7 @@ export class VoiceRecorderImpl {
         return this.chunks.push(event.data);
       };
       if (options?.chunkDurationMs != null) {
+        console.log('startRecording with chunkDurationMs', options.chunkDurationMs);
         this.mediaRecorder.start(options.chunkDurationMs);
       } else {
         this.mediaRecorder.start();
