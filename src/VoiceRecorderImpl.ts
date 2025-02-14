@@ -23,6 +23,7 @@ export class VoiceRecorderImpl {
   private mediaRecorder: MediaRecorder | null = null;
   private chunks: any[] = [];
   private pendingResult: Promise<RecordingData> = neverResolvingPromise();
+  private options?: { chunkDurationMs?: number };
 
   public static async canDeviceVoiceRecord(): Promise<GenericResponse> {
     if (navigator?.mediaDevices?.getUserMedia == null || VoiceRecorderImpl.getSupportedMimeType() == null) {
@@ -33,6 +34,7 @@ export class VoiceRecorderImpl {
   }
 
   public async startRecording(options?: { chunkDurationMs?: number }): Promise<GenericResponse> {
+    this.options = options;
     if (this.mediaRecorder != null) {
       throw alreadyRecordingError();
     }
@@ -168,9 +170,9 @@ export class VoiceRecorderImpl {
         console.log('ondataavailable', event);
         return this.chunks.push(event.data);
       };
-      if (options?.chunkDurationMs != null) {
-        console.log('startRecording with chunkDurationMs', options.chunkDurationMs);
-        this.mediaRecorder.start(options.chunkDurationMs);
+      if (this.options?.chunkDurationMs != null) {
+        console.log('startRecording with chunkDurationMs', this.options.chunkDurationMs);
+        this.mediaRecorder.start(this.options.chunkDurationMs);
       } else {
         this.mediaRecorder.start();
       }
@@ -207,5 +209,6 @@ export class VoiceRecorderImpl {
     this.pendingResult = neverResolvingPromise();
     this.mediaRecorder = null;
     this.chunks = [];
+    this.options = undefined;
   }
 }
