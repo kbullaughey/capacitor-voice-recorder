@@ -177,7 +177,7 @@ class VoiceRecorderImpl {
                 console.log('ondataavailable', event);
                 return this.chunks.push(event.data);
             };
-            this.mediaRecorder.start();
+            this.mediaRecorder.start(1000);
         });
         return successResponse();
     }

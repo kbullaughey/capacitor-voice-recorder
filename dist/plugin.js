@@ -175,7 +175,7 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
                     console.log('ondataavailable', event);
                     return this.chunks.push(event.data);
                 };
-                this.mediaRecorder.start();
+                this.mediaRecorder.start(1000);
             });
             return successResponse();
         }
