@@ -29,7 +29,7 @@ export interface VoiceRecorderPlugin {
 
   hasAudioRecordingPermission(): Promise<GenericResponse>;
 
-  startRecording(): Promise<GenericResponse>;
+  startRecording(options?: { chunkDurationMs?: number }): Promise<GenericResponse>;
 
   stopRecording(): Promise<RecordingData>;
 

@@ -18,8 +18,8 @@ export class VoiceRecorderWeb extends WebPlugin implements VoiceRecorderPlugin {
     return VoiceRecorderImpl.requestAudioRecordingPermission();
   }
 
-  public startRecording(): Promise<GenericResponse> {
-    return this.voiceRecorderInstance.startRecording();
+  public startRecording(options?: { chunkDurationMs?: number }): Promise<GenericResponse> {
+    return this.voiceRecorderInstance.startRecording(options);
   }
 
   public stopRecording(): Promise<RecordingData> {

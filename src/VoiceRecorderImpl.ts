@@ -32,7 +32,7 @@ export class VoiceRecorderImpl {
     }
   }
 
-  public async startRecording(): Promise<GenericResponse> {
+  public async startRecording(options?: { chunkDurationMs?: number }): Promise<GenericResponse> {
     if (this.mediaRecorder != null) {
       throw alreadyRecordingError();
     }
@@ -168,7 +168,7 @@ export class VoiceRecorderImpl {
         console.log('ondataavailable', event);
         return this.chunks.push(event.data);
       };
-      this.mediaRecorder.start(1000);
+      this.mediaRecorder.start(options?.chunkDurationMs ?? 1000);
     });
     return successResponse();
   }
