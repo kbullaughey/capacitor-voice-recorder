@@ -1,7 +1,6 @@
 'use strict';
 
 var core = require('@capacitor/core');
-var getBlobDuration = require('get-blob-duration');
 
 const RecordingStatus = {
     RECORDING: 'RECORDING',
@@ -24,6 +23,7 @@ const recordingHasNotStartedError = () => new Error('RECORDING_HAS_NOT_STARTED')
 const failedToFetchRecordingError = () => new Error('FAILED_TO_FETCH_RECORDING');
 const couldNotQueryPermissionStatusError = () => new Error('COULD_NOT_QUERY_PERMISSION_STATUS');
 
+//import getBlobDuration from 'get-blob-duration';
 // these mime types will be checked one by one in order until one of them is found to be supported by the current browser
 const possibleMimeTypes = ['audio/aac', 'audio/webm;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/ogg;codecs=opus'];
 const neverResolvingPromise = () => new Promise(() => undefined);
@@ -171,9 +171,10 @@ class VoiceRecorderImpl {
                     return;
                 }
                 const recordDataBase64 = await VoiceRecorderImpl.blobToBase64(blobVoiceRecording);
-                const recordingDuration = await getBlobDuration(blobVoiceRecording);
+                //const recordingDuration = await getBlobDuration(blobVoiceRecording);
                 this.prepareInstanceForNextOperation();
-                resolve({ value: { recordDataBase64, mimeType, msDuration: recordingDuration * 1000 } });
+                //resolve({ value: { recordDataBase64, mimeType, msDuration: recordingDuration * 1000 } });
+                resolve({ value: { recordDataBase64, mimeType } });
             };
             this.mediaRecorder.ondataavailable = (event) => {
                 console.log('ondataavailable', event);

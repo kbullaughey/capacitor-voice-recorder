@@ -141,7 +141,7 @@
           "complexTypes": [
             "Base64String"
           ],
-          "type": "{ recordDataBase64: string; msDuration: number; mimeType: string; }"
+          "type": "{ recordDataBase64: string; msDuration?: number | undefined; mimeType: string; }"
         }
       ]
     },
