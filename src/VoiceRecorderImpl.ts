@@ -164,7 +164,10 @@ export class VoiceRecorderImpl {
         this.prepareInstanceForNextOperation();
         resolve({ value: { recordDataBase64, mimeType, msDuration: recordingDuration * 1000 } });
       };
-      this.mediaRecorder.ondataavailable = (event: any) => this.chunks.push(event.data);
+      this.mediaRecorder.ondataavailable = (event: any) => {
+        console.log('ondataavailable', event);
+        return this.chunks.push(event.data);
+      };
       this.mediaRecorder.start();
     });
     return successResponse();
