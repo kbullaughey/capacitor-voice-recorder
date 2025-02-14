@@ -21,7 +21,9 @@ export interface VoiceRecorderPlugin {
     canDeviceVoiceRecord(): Promise<GenericResponse>;
     requestAudioRecordingPermission(): Promise<GenericResponse>;
     hasAudioRecordingPermission(): Promise<GenericResponse>;
-    startRecording(): Promise<GenericResponse>;
+    startRecording(options?: {
+        chunkDurationMs?: number;
+    }): Promise<GenericResponse>;
     stopRecording(): Promise<RecordingData>;
     pauseRecording(): Promise<GenericResponse>;
     resumeRecording(): Promise<GenericResponse>;

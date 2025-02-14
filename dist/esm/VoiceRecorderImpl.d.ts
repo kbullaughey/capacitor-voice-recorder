@@ -3,8 +3,11 @@ export declare class VoiceRecorderImpl {
     private mediaRecorder;
     private chunks;
     private pendingResult;
+    private options?;
     static canDeviceVoiceRecord(): Promise<GenericResponse>;
-    startRecording(): Promise<GenericResponse>;
+    startRecording(options?: {
+        chunkDurationMs?: number;
+    }): Promise<GenericResponse>;
     stopRecording(): Promise<RecordingData>;
     static hasAudioRecordingPermission(): Promise<GenericResponse>;
     static requestAudioRecordingPermission(): Promise<GenericResponse>;

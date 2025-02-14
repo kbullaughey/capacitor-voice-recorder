@@ -43,8 +43,14 @@
       },
       {
         "name": "startRecording",
-        "signature": "() => Promise<GenericResponse>",
-        "parameters": [],
+        "signature": "(options?: { chunkDurationMs?: number | undefined; } | undefined) => Promise<GenericResponse>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ chunkDurationMs?: number | undefined; } | undefined"
+          }
+        ],
         "returns": "Promise<GenericResponse>",
         "tags": [],
         "docs": "",

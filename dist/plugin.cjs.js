@@ -42,7 +42,8 @@ class VoiceRecorderImpl {
             return successResponse();
         }
     }
-    async startRecording() {
+    async startRecording(options) {
+        this.options = options;
         if (this.mediaRecorder != null) {
             throw alreadyRecordingError();
         }
@@ -150,6 +151,7 @@ class VoiceRecorderImpl {
     }
     onSuccessfullyStartedRecording(stream) {
         this.pendingResult = new Promise((resolve, reject) => {
+            var _a;
             this.mediaRecorder = new MediaRecorder(stream);
             this.mediaRecorder.onerror = () => {
                 this.prepareInstanceForNextOperation();
@@ -177,7 +179,13 @@ class VoiceRecorderImpl {
                 console.log('ondataavailable', event);
                 return this.chunks.push(event.data);
             };
-            this.mediaRecorder.start(1000);
+            if (((_a = this.options) === null || _a === void 0 ? void 0 : _a.chunkDurationMs) != null) {
+                console.log('startRecording with chunkDurationMs', this.options.chunkDurationMs);
+                this.mediaRecorder.start(this.options.chunkDurationMs);
+            }
+            else {
+                this.mediaRecorder.start();
+            }
         });
         return successResponse();
     }
@@ -209,6 +217,7 @@ class VoiceRecorderImpl {
         this.pendingResult = neverResolvingPromise();
         this.mediaRecorder = null;
         this.chunks = [];
+        this.options = undefined;
     }
 }
 
@@ -226,8 +235,8 @@ class VoiceRecorderWeb extends core.WebPlugin {
     requestAudioRecordingPermission() {
         return VoiceRecorderImpl.requestAudioRecordingPermission();
     }
-    startRecording() {
-        return this.voiceRecorderInstance.startRecording();
+    startRecording(options) {
+        return this.voiceRecorderInstance.startRecording(options);
     }
     stopRecording() {
         return this.voiceRecorderInstance.stopRecording();

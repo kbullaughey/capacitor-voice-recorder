@@ -14,8 +14,8 @@ export class VoiceRecorderWeb extends WebPlugin {
     requestAudioRecordingPermission() {
         return VoiceRecorderImpl.requestAudioRecordingPermission();
     }
-    startRecording() {
-        return this.voiceRecorderInstance.startRecording();
+    startRecording(options) {
+        return this.voiceRecorderInstance.startRecording(options);
     }
     stopRecording() {
         return this.voiceRecorderInstance.stopRecording();

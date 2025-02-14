@@ -40,7 +40,8 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
                 return successResponse();
             }
         }
-        async startRecording() {
+        async startRecording(options) {
+            this.options = options;
             if (this.mediaRecorder != null) {
                 throw alreadyRecordingError();
             }
@@ -148,6 +149,7 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
         }
         onSuccessfullyStartedRecording(stream) {
             this.pendingResult = new Promise((resolve, reject) => {
+                var _a;
                 this.mediaRecorder = new MediaRecorder(stream);
                 this.mediaRecorder.onerror = () => {
                     this.prepareInstanceForNextOperation();
@@ -175,7 +177,13 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
                     console.log('ondataavailable', event);
                     return this.chunks.push(event.data);
                 };
-                this.mediaRecorder.start(1000);
+                if (((_a = this.options) === null || _a === void 0 ? void 0 : _a.chunkDurationMs) != null) {
+                    console.log('startRecording with chunkDurationMs', this.options.chunkDurationMs);
+                    this.mediaRecorder.start(this.options.chunkDurationMs);
+                }
+                else {
+                    this.mediaRecorder.start();
+                }
             });
             return successResponse();
         }
@@ -207,6 +215,7 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
             this.pendingResult = neverResolvingPromise();
             this.mediaRecorder = null;
             this.chunks = [];
+            this.options = undefined;
         }
     }
 
@@ -224,8 +233,8 @@ var capacitorVoiceRecorder = (function (exports, core, getBlobDuration) {
         requestAudioRecordingPermission() {
             return VoiceRecorderImpl.requestAudioRecordingPermission();
         }
-        startRecording() {
-            return this.voiceRecorderInstance.startRecording();
+        startRecording(options) {
+            return this.voiceRecorderInstance.startRecording(options);
         }
         stopRecording() {
             return this.voiceRecorderInstance.stopRecording();
