@@ -3,7 +3,7 @@ export type Base64String = string;
 export interface RecordingData {
   value: {
     recordDataBase64: Base64String;
-    msDuration: number;
+    msDuration?: number;
     mimeType: string;
   };
 }

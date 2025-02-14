@@ -162,9 +162,10 @@ export class VoiceRecorderImpl {
           return;
         }
         const recordDataBase64 = await VoiceRecorderImpl.blobToBase64(blobVoiceRecording);
-        const recordingDuration = await getBlobDuration(blobVoiceRecording);
+        //const recordingDuration = await getBlobDuration(blobVoiceRecording);
         this.prepareInstanceForNextOperation();
-        resolve({ value: { recordDataBase64, mimeType, msDuration: recordingDuration * 1000 } });
+        //resolve({ value: { recordDataBase64, mimeType, msDuration: recordingDuration * 1000 } });
+        resolve({ value: { recordDataBase64, mimeType } });
       };
       this.mediaRecorder.ondataavailable = (event: any) => {
         console.log('ondataavailable', event);
