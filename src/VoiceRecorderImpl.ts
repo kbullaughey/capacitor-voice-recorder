@@ -1,4 +1,4 @@
-import getBlobDuration from 'get-blob-duration';
+//import getBlobDuration from 'get-blob-duration';
 
 import { RecordingStatus } from './definitions';
 import type { Base64String, CurrentRecordingStatus, GenericResponse, RecordingData } from './definitions';
